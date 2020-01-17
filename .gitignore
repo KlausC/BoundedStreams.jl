@@ -9,3 +9,5 @@
 # OS temp or generated files
 .DS_Store
 .directory
+Manifest.toml
+data/*

@@ -1,7 +1,7 @@
 # BoundedStreams.jl
 
-[![Build Status](https://travis-ci.org/JuliaLang/BoundedStreams.jl.svg?branch=master)](https://travis-ci.org/JuliaLang/BoundedStreams.jl)
-[![Codecov](https://codecov.io/gh/JuliaLang/BoundedStreams.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/JuliaLang/BoundedStreams.jl)
+[![Build Status](https://travis-ci.org/KlausC/BoundedStreams.jl.svg?branch=master)](https://travis-ci.org/KlausC/BoundedStreams.jl)
+[![Codecov](https://codecov.io/gh/KlausC/BoundedStreams.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/KlausC/BoundedStreams.jl)
 
 ## Design & Features
 
