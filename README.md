@@ -3,21 +3,22 @@
 [![Build Status](https://travis-ci.org/KlausC/BoundedStreams.jl.svg?branch=master)](https://travis-ci.org/KlausC/BoundedStreams.jl)
 [![Codecov](https://codecov.io/gh/KlausC/BoundedStreams.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/KlausC/BoundedStreams.jl)
 
-## Design & Features
+## Description
 
 The `BoundedStreams` package describe a defined area in a source stream, which is defined
 by an offset in the source stream and a length. It is not intended to modify this area.
 All feasible acces to stream (interface  `IO`) is supported.
 Currently only input streams are supported.
 
-## API & Usage
+## Usage
 
 The public API of `BoundedStreams` includes the structure:
 
-* `BoundedInputStreami <: IO` — defines an bounded input stream in its initial state
+* `BoundedInputStream <: IO` — defines an bounded input stream in its initial state
 
-and corresponding construcors. All access is via the `IO` functions. Some functions
-may be restricted due to backing the source stream.
+and corresponding construcors. All access is via the `IO` functions (`read`, `skip`, `seek`,
+`close`, `position`, `bytesavailable`). They may be wrapped in other wrapping streams as well.
+Some functions may be restricted due to backing the source stream.
 
 ### Installation
 ```julia
