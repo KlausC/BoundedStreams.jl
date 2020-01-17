@@ -60,5 +60,21 @@ end
         @test eof(bio)
         @test String(read(bio)) == ""
     end
+
+    open(file) do io
+        skip(io, 36)
+        bio = BoundedInputStream(io, 40, offset=-26, close=50)
+        @test position(io) == 10
+        @test skip(bio, 5) === bio
+        @test position(io) == 15
+        @test seek(bio, 2) === bio
+        @test_throws ArgumentError skip(bio, 100)
+        @test_throws ArgumentError seek(bio, -200)
+        seek(io, 62)
+        @test close(bio) === nothing
+        @test position(bio) == 50
+         
+    end
+
 end
 

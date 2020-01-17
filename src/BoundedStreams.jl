@@ -56,13 +56,16 @@ end
 
 function Base.skip(io::BoundedInputStream, nb::Integer)
     stream = io.source
-    nb = min(nb, bytesavailable(io))
+    nbmax = bytesavailable(io)
+    0 <= nb <= nbmax || throw(ArgumentError("cannot skip outside BoundedStream"))
     skip(stream, nb)
+    io
 end
 
 function Base.seek(io::BoundedInputStream, nb::Integer)
-    0 <= nb <= io.length || throw(ArgumentError("cannot position outside BoundedStream"))
+    0 <= nb <= io.length || throw(ArgumentError("cannot seek outside BoundedStream"))
     seek(io.source, io.offset + nb)
+    io
 end
 Base.seekend(io::BoundedInputStream) = seek(io, io.length)
 
