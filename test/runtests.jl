@@ -73,8 +73,12 @@ end
         seek(io, 62)
         @test close(bio) === nothing
         @test position(bio) == 50
-         
     end
 
+    open(file) do io
+        bio = BoundedInputStream(io, 15)
+        @test read(bio, Int) != nothing
+        @test_throws EOFError read(bio, Int)
+    end
 end
 

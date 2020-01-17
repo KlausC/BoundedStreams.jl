@@ -69,4 +69,10 @@ function Base.seek(io::BoundedInputStream, nb::Integer)
 end
 Base.seekend(io::BoundedInputStream) = seek(io, io.length)
 
+function Base.read(io::BoundedInputStream, T::Type{UInt8})
+    nb = bytesavailable(io)
+    nb >= sizeof(T) || throw(EOFError())
+    read(io.source, T)
+end
+
 end # module
