@@ -14,7 +14,7 @@ struct BoundedInputStream{T} <: IO
     length::Int
     close::Int
     function BoundedInputStream(io::T, nb::Integer;
-                                offset::Integer=0, close::Integer=0) where T
+                                offset::Integer=0, close::Integer=nb) where T
         if offset > 0
             skip(io, offset)
         elseif offset < 0
@@ -23,6 +23,8 @@ struct BoundedInputStream{T} <: IO
         new{T}(io, position(io), nb, close)
     end
 end
+
+const CLOSE = typemin(Int)
 
 function Base.bytesavailable(io::BoundedInputStream)
     a = io. length - position(io)
@@ -40,7 +42,7 @@ end
 
 function Base.close(io::BoundedInputStream)
     source = io.source
-    if io.close == 0
+    if io.close == CLOSE
         close(source)
     else
         p = position(source)

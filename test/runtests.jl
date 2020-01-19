@@ -10,7 +10,7 @@ end
 
 @testset "bounded input stream" begin
     open(file) do io
-        bio = BoundedInputStream(io, 10)
+        bio = BoundedInputStream(io, 10, close=BoundedStreams.CLOSE)
         @test !eof(bio) 
         @test String(read(bio, 4)) == "0123"
         @test position(bio) == 4
@@ -39,7 +39,7 @@ end
         bio = BoundedInputStream(io, 5)
         @test String(read(bio)) == "abcde"
         close(bio)
-        @test eof(io)
+        @test !eof(io)
     end
 
     open(file) do io
