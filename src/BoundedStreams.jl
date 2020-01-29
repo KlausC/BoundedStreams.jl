@@ -29,7 +29,7 @@ struct BoundedInputStream{T} <: BoundedStream{T}
     close::Int
     function BoundedInputStream(io::T, nb::Integer;
                                 offset::Integer=0, close::Integer=nb) where T
-        
+
         isreadable(io) || throw(ArgumentError("source stream is not readable"))
         new{T}(io, initposition!(io, offset), nb, close)
     end
@@ -57,7 +57,7 @@ struct BoundedOutputStream{T} <: BoundedStream{T}
     close::Int
     function BoundedOutputStream(io::T, nb::Integer;
                                 offset::Integer=0, close::Integer=nb) where T
-        
+
         iswritable(io) || throw(ArgumentError("source stream is not writable"))
         new{T}(io, initposition!(io, offset), nb, close)
     end

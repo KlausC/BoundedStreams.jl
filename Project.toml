@@ -1,7 +1,7 @@
 name = "BoundedStreams"
 uuid = "819c7365-da23-433e-86d1-f9a07e67aad6"
 authors = ["Klaus Crusius <klaus.crusius@web.de>"]
-version = "0.1.0"
+version = "0.2.0"
 
 [compat]
 julia = "1.3"
