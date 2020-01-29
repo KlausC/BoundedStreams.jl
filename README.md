@@ -24,6 +24,23 @@ and corresponding construcors. All access is via the `IO` functions (`read`/`wri
 `close`, `position`, `bytesavailable`). They may be wrapped in other wrapping streams
 as well. Some functions may be restricted due to backing the source stream.
 
+<!-- BEGIN: copied from inline doc strings -->
+
+    BoundedInputStream(source::IO, nbytes::Integer; offset=0, close=nbytes)
+    BoundedOutputStream(source::IO, nbytes::Integer; offset=0, close=nbytes)
+
+Provide the `IO` interface for reading/writing the source stream `source`. Restrict the
+number of bytes to to `nbytes`.
+
+The optional integer argument `offset` shifts the starting point off the
+current position of the source stream.
+
+The optional argument `close` determines the position of the source stream after
+this stream is closed. The special value `BoundedStreams.CLOSE` closes
+the source stream in this case.
+
+<!-- END: copied from inline doc strings -->
+
 ### Installation
 ```julia
    ]add BoundedStreams
@@ -41,19 +58,3 @@ as well. Some functions may be restricted due to backing the source stream.
     y = read(io)
     ...
 ```
-<!-- BEGIN: copied from inline doc strings -->
-
-    BoundedInputStream(source::IO, nbytes::Integer; offset=0, close=nbytes)
-    BoundedOutputStream(source::IO, nbytes::Integer; offset=0, close=nbytes)
-
-Provide the `IO` interface for reading/writing the source stream `source`. Restrict the
-number of bytes to to `nbytes`.
-
-The optional integer argument `offset` shifts the starting point off the
-current position of the source stream.
-
-The optional argument `close` determines the position of the source stream after
-this stream is closed. The special value `BoundedStreams.CLOSE` closes
-the source stream in this case.
-
-<!-- END: copied from inline doc strings -->
