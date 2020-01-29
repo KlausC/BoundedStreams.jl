@@ -4,11 +4,37 @@ using BoundedStreams
 
 # setup test file
 file = joinpath(mkpath(abspath(@__FILE__, "..", "data")), "test.dat")
-open(file, "w") do io
-    write(io, '0':'9', 'A':'Z', 'a':'z')
+
+@testset "$(nameof(S)) general" for S in (BoundedInputStream, BoundedOutputStream)
+    io = open(file, "w+")
+    is = S(io, 100)
+    @test isreadable(is) == (S <: BoundedInputStream)
+    @test iswritable(is) == (S <: BoundedOutputStream)
+    @test skip(is, 5) === is
+    @test position(is) == 5
+    @test !ismarked(is)
+    @test mark(is) == 5
+    @test ismarked(is)
+    @test unmark(is)
+    mark(is)
+    @test seek(is, 1) === is
+    @test position(is) == 1
+    @test reset(is) == 5
+    @test position(is) == 5
+    @test bytesavailable(is) == 95
+    close(is)
+    @test bytesavailable(is) == 0
+    @test position(io) == 100
+    close(io)
+
+    @test_throws ArgumentError BoundedInputStream(open(file, "w"), 10)
+    @test_throws ArgumentError BoundedOutputStream(open(file, "r"), 10)
 end
 
-@testset "bounded input stream" begin
+@testset "BoundedInputStream read" begin
+    open(file, "w") do io
+        write(io, '0':'9', 'A':'Z', 'a':'z')
+    end
     open(file) do io
         bio = BoundedInputStream(io, 10, close=BoundedStreams.CLOSE)
         @test !eof(bio) 
@@ -82,3 +108,22 @@ end
     end
 end
 
+@testset "BoundedOutputStream write" begin
+    open(file, "w") do io
+        bio = BoundedOutputStream(io, 20, offset=5, close=BoundedStreams.CLOSE)
+        @test write(bio, UInt8(20)) == 1
+        @test position(bio) == 1
+        @test write(bio, Int64(123)) == 8
+        @test position(bio) == 9
+        @test bytesavailable(bio) == 11
+        @test write(bio, "abcdefghij") == 10
+        @test bytesavailable(bio) == 1
+        @test_throws EOFError write(bio, "kl")
+    end
+    open(file, "r") do io
+        @test skip(io, 5) === io
+        @test read(io, UInt8) == 20
+        @test read(io, Int64) == 123
+        @test read(io, String) == "abcdefghij"
+    end
+end
