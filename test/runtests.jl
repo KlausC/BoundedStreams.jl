@@ -26,9 +26,6 @@ file = joinpath(mkpath(abspath(@__FILE__, "..", "data")), "test.dat")
     @test bytesavailable(is) == 0
     @test position(io) == 100
     close(io)
-
-    @test_throws ArgumentError BoundedInputStream(open(file, "w"), 10)
-    @test_throws ArgumentError BoundedOutputStream(open(file, "r"), 10)
 end
 
 @testset "BoundedInputStream read" begin
