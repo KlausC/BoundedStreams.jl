@@ -1,7 +1,6 @@
 # BoundedStreams.jl
 
-[![Build Status](https://travis-ci.org/KlausC/BoundedStreams.jl.svg?branch=master)](https://travis-ci.org/KlausC/BoundedStreams.jl)
-[![Codecov](https://codecov.io/gh/KlausC/BoundedStreams.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/KlausC/BoundedStreams.jl)
+[![Build Status][gha-img]][gha-url]     [![Coverage Status][codecov-img]][codecov-url]
 
 ## Description
 
@@ -58,3 +57,8 @@ the source stream in this case.
     y = read(io)
     ...
 ```
+
+[gha-img]: https://github.com/KlausC/BoundedStreams.jl/workflows/CI/badge.svg
+[gha-url]: https://github.com/KlausC/BoundedStreams.jl/actions?query=workflow%3ACI
+[codecov-img]: https://codecov.io/gh/KlausC/BoundedStreams.jl/branch/master/graph/badge.svg
+[codecov-url]: https://codecov.io/gh/KlausC/BoundedStreams.jl

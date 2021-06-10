@@ -1,6 +1,7 @@
 # Julia temp files
 *.cov
 *.mem
+.vscode
 
 # Editor temp files
 *.sw?
