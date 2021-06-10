@@ -100,8 +100,8 @@ end
 
     open(file) do io
         bio = BoundedInputStream(io, 15)
-        @test read(bio, Int) != nothing
-        @test_throws EOFError read(bio, Int)
+        @test read(bio, Int64) != nothing
+        @test_throws EOFError read(bio, Int64)
     end
 end
 
