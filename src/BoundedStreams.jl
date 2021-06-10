@@ -2,7 +2,7 @@ module BoundedStreams
 
 export BoundedInputStream, BoundedOutputStream
 
-const CLOSE = typemin(Int64) # special value for optional `close` argument
+const CLOSE = typemin(Int) # special value for optional `close` argument
 
 # abstract base type for Input and Output
 abstract type BoundedStream{T} <: IO end
@@ -24,7 +24,7 @@ the source stream in this case.
 """
 struct BoundedInputStream{T} <: BoundedStream{T}
     source::T
-    offset::Int64
+    offset::Int
     length::Int
     close::Int
     function BoundedInputStream(io::T, nb::Integer;
@@ -51,7 +51,7 @@ the source stream in this case.
 """
 struct BoundedOutputStream{T} <: BoundedStream{T}
     source::T
-    offset::Int64
+    offset::Int
     length::Int
     close::Int
     function BoundedOutputStream(io::T, nb::Integer;
@@ -62,7 +62,8 @@ struct BoundedOutputStream{T} <: BoundedStream{T}
 end
 
 # set position of stream, if required. prefer skip over seek if possible. return position.
-function initposition!(io::IO, offset::Int64)
+function initposition!(io::IO, offset::Integer)
+    offset = Int(offset)
     if offset == 0
         position(io)
     elseif offset > 0
