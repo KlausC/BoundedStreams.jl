@@ -22,7 +22,9 @@ file = joinpath(mkpath(abspath(@__FILE__, "..", "data")), "test.dat")
     @test reset(is) == 5
     @test position(is) == 5
     @test bytesavailable(is) == 95
+    @test isopen(is) == true
     close(is)
+    @test isopen(is) == false
     @test bytesavailable(is) == 0
     @test position(io) == 100
     close(io)
