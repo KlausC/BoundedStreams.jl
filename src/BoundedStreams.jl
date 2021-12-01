@@ -27,10 +27,11 @@ struct BoundedInputStream{T} <: BoundedStream{T}
     offset::Int
     length::Int
     close::Int
+    isopen::Bool
     function BoundedInputStream(io::T, nb::Integer;
                                 offset::Integer=0, close::Integer=nb) where T
 
-        new{T}(io, initposition!(io, offset), nb, close)
+        new{T}(io, initposition!(io, offset), nb, close, true)
     end
 end
 
@@ -54,10 +55,11 @@ struct BoundedOutputStream{T} <: BoundedStream{T}
     offset::Int
     length::Int
     close::Int
+    isopen::Bool
     function BoundedOutputStream(io::T, nb::Integer;
                                 offset::Integer=0, close::Integer=nb) where T
 
-        new{T}(io, initposition!(io, offset), nb, close)
+        new{T}(io, initposition!(io, offset), nb, close, true)
     end
 end
 
@@ -99,6 +101,7 @@ function Base.close(io::BoundedStream)
             seek(source, q)
         end
     end
+    io.isopen = false
     nothing
 end
 
@@ -117,6 +120,7 @@ function Base.seek(io::BoundedStream, nb::Integer)
 end
 Base.seekend(io::BoundedStream) = seek(io, io.length)
 
+Base.isopen(io::BoundedStream) = io.isopen
 Base.isreadable(io::BoundedStream) = io isa BoundedInputStream
 Base.iswritable(io::BoundedStream) = io isa BoundedOutputStream
 Base.mark(io::BoundedStream) = mark(io.source)
